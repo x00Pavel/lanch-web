@@ -1,0 +1,7 @@
+#!/bin/bash
+set -e
+cd lunch_web
+pwd
+ls -la
+python3 setup.py develop
+python3 runapp.py

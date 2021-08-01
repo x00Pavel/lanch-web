@@ -1,0 +1,22 @@
+
+{% block content %}
+    <h1>Today is: {{date}} {{weekday}}</h1>
+    <hr>
+{% for item in list %}
+    <h2>Restaurant: {{item["name"]}}</h2>
+    <h2><a href={{item["url"]}}>Menu</a>:</h2>
+    {% for key, values in item["menu"].items() %}
+        {{key}}
+        <ul>
+        {% for dish in values %}
+            <li>{{dish}}</li>
+        {% endfor %}
+        </ul>
+    {% endfor %}
+    {% if item["short_name"] == "jp" %}
+        <div>{{item["week_menu"]|safe}}</div>
+    {% endif %}
+    <hr>
+{% endfor %}
+
+{% endblock content %}

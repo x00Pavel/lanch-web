@@ -1,0 +1,1 @@
+# Web for collecting daily menu from the nearest restaurants from Technology Park in Brno 

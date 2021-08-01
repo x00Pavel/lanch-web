@@ -1,8 +1,5 @@
 #!/bin/bash
 set -e
 
-pwd
-ls -la
-
-python3 setup.py develop
-python3 runapp.py
+python setup.py develop
+python runapp.py

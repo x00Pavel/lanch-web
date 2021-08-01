@@ -1,4 +1,5 @@
 from lunch_web import (links, names)
+import re
 
 
 def parse_pages(data):
@@ -15,8 +16,8 @@ def parse_pages(data):
             result["menu"] = __parse_portoriko(rest["page"])
         elif short_name == "jp":
             result["menu"], result["week_menu"] = __parse_jp(rest["page"])
-        # elif rest["name"] == "asport":
-        #     mils = __parse_asport(rest["page"])
+        elif short_name == "asport":
+            result["menu"] = __parse_asport(rest["page"])
 
         menus.append(result)
     return menus
@@ -31,9 +32,9 @@ def __parse_jp(page):
         table = n.find_next_siblings()[0]
 
         for tr in table.find_all("tr"):
-            name = tr.find("div", class_="text").get_text()
-            price = tr.find("div", class_="price").get_text()
-            result[day].append(f"{name} {price}")
+            name = tr.find("div", class_="text").get_text().strip()
+            price = tr.find("div", class_="price").get_text().strip()
+            result[day].append({"type": "Menu", "name": name, "price": price})
     week_menu = page.find("div", class_="tydenni-menu")
     return (result, week_menu)
 
@@ -47,10 +48,31 @@ def __parse_portoriko(page):
         table = n.find_next_siblings()[0]
         for x in table.find_all("td", class_="middle-menu"):
             if len(x.get_text(strip=True)) != 0:
-                result[day].append(x.get_text())
+                txt = x.get_text()
+                if re.search('polévka', txt, re.IGNORECASE):
+                    result[day].append(
+                        {"type": "Polevka", "name": " ".join(txt.split()[0:-2:1]),
+                         "price": txt.split()[-1]})
+                else:
+                    result[day].append(
+                        {"type": f"Menu {txt.split()[0]}",
+                         "name": " ".join(txt.split()[1:-2:1]),
+                         "price": txt.split()[-1]})
 
     return result
 
 
 def __parse_asport(page):
-    return []
+    result = dict()
+    days = ("pondeli", 'utery', 'streda', 'ctvrtek', 'patek')
+    for day in days:
+        section = page.find("section", id=f"menu-{day}")
+        h2 = section.find("h2", class_="tydenni-menu").get_text()
+        result[h2] = list()
+        table = section.find("table", class_="tydenni-menu")
+        for tr in table.find_all('tr'):
+            typ = tr.find('td', class_="typ").get_text().strip()
+            polozka = tr.find('td', class_="polozka").get_text().strip()
+            cena = tr.find('td', class_="cena").get_text().strip()
+            result[h2].append({"type": typ, "name": polozka, "price": cena})
+    return result

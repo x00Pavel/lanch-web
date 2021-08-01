@@ -4,8 +4,8 @@
 
 1. Specify URLs on daily menu of restaurants (hardcoded)
 2. Get todays date and week day in czech language
-3. Get pages one by one from list of URLs with requests library
-4. Parse content of the page with Beautiful Soup framework
+3. Get pages one by one from list of URLs
+4. Parse content of the page
 5. Serialize information obtained from the page to tuple of dicts like this:<br>
    <code>({url: "https://some.url.com"<br>
        name: "JP",<br>
@@ -18,6 +18,11 @@
     - display message like "Sorry, this page can't be parsed correctly."
     - **Link to the restaurant menu is show in any way**
 6. Serialized data are sent to the HTML page and places based on the page template
+
+## Used technologies
+- requests for getting pages from URLs
+- Beautiful Soup 4 for parsing HTML pages
+- Mako as template library
 
 ## Features to do
 

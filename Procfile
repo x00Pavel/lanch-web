@@ -1,1 +1,1 @@
-web: ./lunch_web/run
+web: ./run

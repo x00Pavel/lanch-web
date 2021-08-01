@@ -9,7 +9,7 @@
         {{key}}
         <ul>
         {% for dish in values %}
-            <li>{{dish}}</li>
+            <li>{{dish["type"]}} {{dish["name"]}} {{dish["price"]}}</li>
         {% endfor %}
         </ul>
     {% endfor %}

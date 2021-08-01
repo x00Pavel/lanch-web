@@ -14,6 +14,9 @@ requires = [
     'pyramid_jinja2',
     'pyramid_debugtoolbar',
     'waitress',
+    'requests',
+    'bs4',
+    'requests_cache'
 ]
 
 tests_require = [

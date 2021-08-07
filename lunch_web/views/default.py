@@ -7,7 +7,7 @@ from lunch_web import (links, weekday_name)
 from requests_cache import install_cache
 
 install_cache(cache_name="restaurants_cache",
-              backend="sqlite", expire_after=180)
+              backend="sqlite", expire_after=360)
 
 
 @view_config(route_name='home', renderer='lunch_web:templates/lunches.jinja2')

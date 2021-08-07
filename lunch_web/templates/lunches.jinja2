@@ -1,22 +1,48 @@
+<!DOCTYPE html>
+<html lang="{{request.locale_name}}">
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <link href="{{request.static_url('lunch_web:static/lunch.css')}}?version=18 rel="stylesheet"" 
+        rel="stylesheet" >
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <head>
+    <body>
+        <h1 class="lunch-text-color">Today is: {{date}} {{weekday}}</h1>
+        <p class="lunch-text-color">Click on the restaurant to see menu for days</p> 
+        <hr>
 
-{% block content %}
-    <h1>Today is: {{date}} {{weekday}}</h1>
-    <hr>
-{% for item in list %}
-    <h2>Restaurant: {{item["name"]}}</h2>
-    <h2><a href={{item["url"]}}>Menu</a>:</h2>
-    {% for key, values in item["menu"].items() %}
-        {{key}}
-        <ul>
-        {% for dish in values %}
-            <li>{{dish["type"]}} {{dish["name"]}} {{dish["price"]}}</li>
+        {% for item in list %}
+        <div class="panel-heading lunch-text-color">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" href="#{{item["short_name"]}}">
+               Restaurant: {{item["name"]}}
+            </a>
+          </h4>
+        </div>
+        <div id="{{item["short_name"]}}" class="panel-collapse collapse">
+           {% for key, values in item["menu"].items() %}
+            <ul>
+              <li class="list-group-item">
+                {% set target = item["short_name"] ~ loop.index0 %}
+                <h4 class="panel-title">
+                  <a data-toggle="collapse" href="#{{target}}">{{key}}</a>
+                </h4>
+                <div id="{{target}}" class="panel-collapse collapse">
+                  <ul>
+                  {% for dish in values %}
+                    <li class="list-group-item">{{dish["type"]}} {{dish["name"]}} {{dish["price"]}}</li>
+                  {% endfor %}
+                  <ul>
+                </div>
+              </li>
+            </ul>
+            {% endfor %}
+            {% if item["short_name"] == "jp" %}
+            <div class="lunch-text-color">{{item["week_menu"]|safe}}</div>
+            {% endif %} 
+        </div>
+        <hr>
         {% endfor %}
-        </ul>
-    {% endfor %}
-    {% if item["short_name"] == "jp" %}
-        <div>{{item["week_menu"]|safe}}</div>
-    {% endif %}
-    <hr>
-{% endfor %}
-
-{% endblock content %}
+    </body>
+</html>

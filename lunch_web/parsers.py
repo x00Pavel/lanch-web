@@ -68,11 +68,14 @@ def __parse_asport(page):
     for day in days:
         section = page.find("section", id=f"menu-{day}")
         h2 = section.find("h2", class_="tydenni-menu").get_text()
-        result[h2] = list()
+        tmp = list()
         table = section.find("table", class_="tydenni-menu")
         for tr in table.find_all('tr'):
             typ = tr.find('td', class_="typ").get_text().strip()
             polozka = tr.find('td', class_="polozka").get_text().strip()
             cena = tr.find('td', class_="cena").get_text().strip()
-            result[h2].append({"type": typ, "name": polozka, "price": cena})
+            if polozka != "":
+                tmp.append({"type": typ, "name": polozka, "price": cena})
+        if tmp:
+            result[h2] = tmp
     return result

@@ -1,0 +1,12 @@
+<ul class="ba">
+    <li class="list-group-item">
+        <button class="collapsible">{{key}}</button>
+    <div id="{{target}}" class="content lunch-text-collapsible">
+        <ul class="ba">
+        {% for dish in values %}
+            <li class="list-group-item">{{dish["name"]}} {{dish["price"]}}</li>
+        {% endfor %}
+        <ul>
+    </div>
+    </li>
+</ul>

@@ -6,10 +6,10 @@ body {
   font-weight: 300;
   background: #000000; 
 }
-/* Style the button that is used to open and close the collapsible content */
-/* .collapsible {
-  background-color: #eee;
-  color: #444;
+
+.collapsible {
+  background-color: #777;
+  color: white;
   cursor: pointer;
   padding: 18px;
   width: 100%;
@@ -19,24 +19,40 @@ body {
   font-size: 15px;
 }
 
-/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
-/* .active, .collapsible:hover {
-  background-color: #727171;
-} */ 
+.active, .collapsible:hover {
+  background-color: #555;
+}
 
-/* Style the collapsible content. Note: hidden by default */
+.collapsible:after {
+  content: '\002B';
+  color: white;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\2212";
+}
+
 .content {
-  padding: 0 18px;
-  display: none;
+  padding: 0 0px;
+  max-height: 0;
   overflow: hidden;
+  transition: max-height 0.2s ease-out;
   background-color: #f1f1f1;
 }
-
-.lunch-restaurant {
-  background-color: #ecece3;
-  color: #000000;
+ 
+.lunch-heading {
+  color: #F5F5EF;
+  background-color: #000000;
 }
 
-.lunch-text-color {
-  color: #f1f1f1;
+.lunch-text-collapsible {
+  background-color: #F5F5EF;
+  color: #332219;
+}
+ul.ba {
+    margin: 10px 0;
+    list-style-type: none;
 }

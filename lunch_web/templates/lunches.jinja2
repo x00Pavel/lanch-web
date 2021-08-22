@@ -1,24 +1,32 @@
 {% extends "base.jinja2" %}
 {% block body %}
 <body>
-  <div class="lunch-heading">
-    <h1>Today is: {{date}} {{weekday}}</h1>
-    <p>Click on the restaurant to see menu for days</p> 
-  </div>
+    <div class="lunch-heading">
+        <h1>Today is: {{date}} {{weekday}}</h1>
+        <p>Click on the restaurant to see menu for days</p> 
+    </div>
+    <ul class="ba">
+        {% for item in list %}
+        <li class="list-group-item">
+            <button class="btn" data-toggle="collapse" data-target="#{{item["short_name"]}}">
+                Restaurant: {{item["name"]}}
+            </button>
+            <div id="{{item["short_name"]}}" class="collapse">
 
-  {% for item in list %}
-  <button class="collapsible lunch-text-collapsible">Restaurant: {{item["name"]}}</button>
-  <div id="{{item["short_name"]}}" class="content lunch-text-collapsible">
-    <hr>
-    {% for key, values in item["menu"].items() %}
-      {% set target = item["short_name"] ~ loop.index0 %}
-      {% include 'day-menu.jinja2' %}
-    {% endfor %}
+            {% for key, values in item["menu"].items() %}
+                {% set target = item["short_name"] ~ loop.index0 %}
+                {% include 'day-menu.jinja2' %}
+            {% endfor %}
 
-    {% if item["short_name"] == "jp" %}
-    <div class="lunch-text-collapsible">{{item["week_menu"]|safe}}</div>
-    {% endif %} 
-  </div>
-  {% endfor %}
+            {% if item["short_name"] == "jp" %}
+            <div class="lunch-text-collapsible">
+                {{item["week_menu"]|safe}}
+            </div>
+            {% endif %} 
+            </div>
+            <br>
+        </li>
+        {% endfor %}
+    </ul>
 </body>
 {% endblock %}

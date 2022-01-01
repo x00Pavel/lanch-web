@@ -1,3 +1,4 @@
+from datetime import date
 from lunch_web import (links, names)
 
 
@@ -19,9 +20,31 @@ def parse_pages(data):
             result["menu"] = parse_asport(rest["page"])
         elif short_name == "nepal":
             result["menu"] = parse_nepal(rest["page"])
+        elif short_name == "u3opic":
+            result["menu"] = parse_u3opic(rest["page"])
 
         menus.append(result)
     return menus
+
+
+def parse_u3opic(page):
+    result = dict()
+    denni = page.find_all("div", {"class": "row menu-items"})[0]
+    items = denni.find_all("div", {"class": "menu-item col-sm-12 col-xs-12 starter"})
+    for o in range(0, len(items), 5):
+        day = items[o].find("h2").text
+        if "sobota" in day.lower():
+            break
+        result[day] = list()
+        for i in range(o + 1, o + 5):
+            if i <= len(items) - 2:
+                item = items[i]
+                price = item.find("span", class_="price")
+                if price is not None:
+                    price = price.get_text(strip=True)
+                name = item.find("h4").get_text(strip=True)
+                result[day].append({"name": name, "price": price})
+    return result
 
 
 def parse_jp(page):
@@ -53,8 +76,6 @@ def parse_portoriko(page):
                 result[day].append(
                     {"name": " ".join(txt.split()[0:-1:1]),
                      "price": txt.split()[-1]})
-
-
     return result
 
 
@@ -81,8 +102,8 @@ def parse_nepal(page):
     table = page.find("div", class_="the_content_wrapper").find_all("table")[2]
     rows = table.find_all("tr")
     day_stack = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "end"]
-    
-    week_day = None 
+
+    week_day = None
     for row in rows:
         for column in row.find_all("td"):
             day = day_stack[0]

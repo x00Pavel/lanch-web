@@ -1,5 +1,6 @@
 from datetime import date
 from lunch_web import (links, names)
+from pprint import pprint
 
 
 def parse_pages(data):
@@ -22,9 +23,29 @@ def parse_pages(data):
             result["menu"] = parse_nepal(rest["page"])
         elif short_name == "u3opic":
             result["menu"] = parse_u3opic(rest["page"])
-
+        elif short_name == "padagali":
+            result["menu"] = parse_padagali(rest["page"])
         menus.append(result)
     return menus
+
+
+def parse_padagali(page):
+    result = dict()
+    content = page.find("div", {"class": "glf-mor-restaurant-menu-wrapper"})
+    content = content.find_all("div", {"class": "glf-mor-restaurant-menu-category"})
+    for c in content:
+        heading = c.find("h3").get_text(strip=True)
+        result[heading] = list()
+        menu = c.find_all("div", {"class": "glf-mor-restaurant-menu-item-inner"})
+        for m in menu:
+            name = m.find("h5", {"class": "glf-mor-restaurant-menu-item-name"}).get_text(strip=True)
+            description = m.find("div", {"class": "glf-mor-restaurant-menu-item-description"})
+            if description is not None:
+                description = description.get_text(strip=True)
+                name = f"{name} ({description})"
+            price = m.find("span", {"class": "price"}).get_text(strip=True)
+            result[heading].append({"name": name, "price": price})
+    return result
 
 
 def parse_u3opic(page):

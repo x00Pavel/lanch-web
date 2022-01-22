@@ -39,3 +39,4 @@ env*
 *cache*
 *venv*
 .coverage
+*menus.json

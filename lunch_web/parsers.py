@@ -1,6 +1,4 @@
-from datetime import date
 from lunch_web import (links, names)
-from pprint import pprint
 
 
 def parse_pages(data):
@@ -81,7 +79,8 @@ def parse_jp(page):
             price = tr.find("div", class_="price").get_text().strip()
             result[day].append({"name": name, "price": price})
     week_menu = page.find("div", class_="tydenni-menu")
-    return (result, week_menu)
+    print(week_menu)
+    return (result, str(week_menu))
 
 
 def parse_portoriko(page):

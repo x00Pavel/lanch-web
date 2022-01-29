@@ -3,8 +3,16 @@
 <body>
     <div class="lunch-heading">
         <h1>Today is: {{date}} {{weekday}}</h1>
-        <p>Click on the restaurant to see menu for days</p> 
+        
+        {% if cache == True %}
+        <p>Data are loaded from the cache</p>
+        {% else %}
+        <p>Data are loaded from the source web pages</p>
+        {% endif %} 
+        
+        <p>Click on the restaurant to see menu for days</p>
     </div>
+
     <ul class="ba">
         {% for item in list %}
         <li class="list-group-item">

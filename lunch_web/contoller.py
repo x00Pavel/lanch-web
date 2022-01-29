@@ -11,19 +11,22 @@ MENUS_JSON = "menus.json"
 
 
 def get_menu(date):
+    cache = True
     menus = load_menu(date)
     if menus is None:
+        cache = False
         data = get_html(date)
         menus = parsers.parse_pages(data)
         update_menu(menus, date)
-    return menus
+    return (menus, cache)
 
 
 def get_html(date):
     pages = list()
     for name, link in links.items():
         respons = requests.get(link)
-        page = BeautifulSoup(respons.text, "html.parser")
+        content = respons.text
+        page = BeautifulSoup(content, "html.parser")
         pages.append({"name": name, "page": page})
     return pages
 
@@ -55,6 +58,7 @@ def update_menu(menus, date):
             json.dump(cache, f)
         log.info("Cache is updated")
     except:
-        # if exists(MENUS_JSON):
-        #     unlink(MENUS_JSON)
+        if exists(MENUS_JSON):
+            unlink(MENUS_JSON)
+        log.error("Cache is not updated")
         raise

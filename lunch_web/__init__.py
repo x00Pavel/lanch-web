@@ -13,6 +13,7 @@ links = {
     "nepal": "https://nepalbrno.cz/weekly-menu/",
     "u3opic": "https://www.u3opic.cz/denni-menu",
     "padagali": "https://padagali.cz/denni-menu/",
+    "na_purkince": "http://www.napurkynce.cz/denni-menu/",
     }
 
 names = {"jp": "Jean Paul's",
@@ -20,7 +21,8 @@ names = {"jp": "Jean Paul's",
          "asport": "A-Sport",
          "nepal": "Nepal",
          "u3opic": "U 3 Opic",
-         "padagali": "Padagali"}
+         "padagali": "Padagali",
+         "na_purkince": "Na Purkinňce"}
 
 weekday_name = {0: "Pondělí", 1: "Úterý", 2: "Středa",
                 3: "Čtvrtek", 4: "Pátek", 5: "Sobota", 6: "Neděle"}

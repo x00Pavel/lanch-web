@@ -27,6 +27,8 @@ def get_html(date):
         respons = requests.get(link)
         content = respons.text
         page = BeautifulSoup(content, "html.parser")
+        if name == "u3opic":
+            page = page.decode("windows-1250").encode("utf8")
         pages.append({"name": name, "page": page})
     return pages
 

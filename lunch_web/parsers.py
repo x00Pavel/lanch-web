@@ -23,8 +23,15 @@ def parse_pages(data):
             result["menu"] = parse_u3opic(rest["page"])
         elif short_name == "padagali":
             result["menu"] = parse_padagali(rest["page"])
+        # elif short_name == "na_purkince":
+        #     result["menu"] = parse_na_purkince(rest["page"])
         menus.append(result)
     return menus
+
+
+def parse_na_purkince(page):
+    result = dict()
+    return result
 
 
 def parse_padagali(page):

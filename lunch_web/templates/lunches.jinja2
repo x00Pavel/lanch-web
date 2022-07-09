@@ -21,10 +21,16 @@
             </button>
             <div id="{{item["short_name"]}}" class="collapse">
 
-            {% for key, values in item["menu"].items() %}
-                {% set target = item["short_name"] ~ loop.index0 %}
-                {% include 'day-menu.jinja2' %}
-            {% endfor %}
+            {% if "menu" not in item.keys() %}
+                <p>
+                    Menu is not in the dict
+                </p>
+            {% else %}
+                {% for key, values in item["menu"].items() %}
+                    {% set target = item["short_name"] ~ loop.index0 %}
+                    {% include 'day-menu.jinja2' %}
+                {% endfor %}
+            {% endif %}
 
             {% if item["short_name"] == "jp" %}
             <div class="lunch-text-collapsible">

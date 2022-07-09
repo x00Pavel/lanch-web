@@ -1,39 +1,67 @@
 from os import unlink
-from os.path import exists
-
-from lunch_web import links, parsers, log, TIME_FORMAT
+from os.path import exists, abspath, dirname
+from lunch_web import parsers, log, TIME_FORMAT
 import requests
 from bs4 import BeautifulSoup
 import json
 from datetime import datetime, timedelta
+from concurrent.futures import ThreadPoolExecutor
+from json import load
 
+# FIXME: set absolute path to files in the root of the module
 MENUS_JSON = "menus.json"
+RESTAURANTS_JSON = f"{dirname(abspath(__file__))}/restaurants.json"
+
+
+def thread_work(vals):
+    """Worker for parsing menu from one restaurant
+
+    :param vals: values for the restaurant (short name, link, full name)
+    :type vals: list
+    :return: parsed page
+    :rtype: dict
+    """
+    name = vals[0]
+    url = vals[1]["url"]
+    content = requests.get(url)
+    result = {'short_name': name, "name": vals[1]["full_name"]}
+
+    # U 3 Opic has specific encoding, so need to decode in specific way.
+    # Encoding is set manually based on charset of original site
+    if name == "u3opic":
+        content.encoding = "windows-1250"
+    page = BeautifulSoup(content.text, "html.parser",
+                            from_encoding=content.encoding)
+    if name == "portoriko":
+        result["menu"] = parsers.parse_portoriko(page)
+    elif name == "jp":
+        result["menu"], result["week_menu"] = parsers.parse_jp(page)
+    elif name == "asport":
+        result["menu"] = parsers.parse_asport(page)
+    elif name == "nepal":
+        result["menu"] = parsers.parse_nepal(page)
+    elif name == "u3opic":
+        result["menu"] = parsers.parse_u3opic(page)
+    elif name == "padagali":
+        result["menu"] = parsers.parse_padagali(page)
+
+    return result
 
 
 def get_menu(date):
     cache = True
-    # menus = load_menu(date)
-    menus = None
-    if menus is None:
+    results = load_menu(date)
+    if results is None:
         cache = False
-        data = get_html(date)
-        menus = parsers.parse_pages(data)
-        update_menu(menus, date)
-    return (menus, cache)
+        with open(RESTAURANTS_JSON, "r") as f:
+            rests = load(f)
 
+        with ThreadPoolExecutor(max_workers=len(rests.keys())) as exec:
+            results = list(exec.map(thread_work, list(rests.items())))
+        update_menu(results, date)
 
-def get_html(date):
-    pages = list()
-    for name, link in links.items():
-        content = requests.get(link)
-        # U 3 Opic has specific encoding, so need to decode in specific way.
-        # Encoding is set manually based on charset of original site
-        if name == "u3opic":
-            content.encoding = "windows-1250"
-        page = BeautifulSoup(content.text, "html.parser",
-                             from_encoding=content.encoding)
-        pages.append({"name": name, "page": page})
-    return pages
+    # FIXME: change return type of this function to remove
+    return (results, cache)
 
 
 def load_menu(date):

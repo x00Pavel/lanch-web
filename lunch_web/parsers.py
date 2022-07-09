@@ -1,34 +1,3 @@
-from lunch_web import (links, names)
-
-
-def parse_pages(data):
-    menus = list()
-    for rest in data:
-        short_name = rest["name"]
-        result = dict()
-        result["menu"] = dict()
-        result['name'] = names[short_name]
-        result['short_name'] = short_name
-        result['url'] = links[short_name]
-
-        if short_name == "portoriko":
-            result["menu"] = parse_portoriko(rest["page"])
-        elif short_name == "jp":
-            result["menu"], result["week_menu"] = parse_jp(rest["page"])
-        elif short_name == "asport":
-            result["menu"] = parse_asport(rest["page"])
-        elif short_name == "nepal":
-            result["menu"] = parse_nepal(rest["page"])
-        elif short_name == "u3opic":
-            result["menu"] = parse_u3opic(rest["page"])
-        elif short_name == "padagali":
-            result["menu"] = parse_padagali(rest["page"])
-        # elif short_name == "na_purkince":
-        #     result["menu"] = parse_na_purkince(rest["page"])
-        menus.append(result)
-    return menus
-
-
 def parse_na_purkince(page):
     result = dict()
     return result

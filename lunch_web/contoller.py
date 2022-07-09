@@ -12,7 +12,8 @@ MENUS_JSON = "menus.json"
 
 def get_menu(date):
     cache = True
-    menus = load_menu(date)
+    # menus = load_menu(date)
+    menus = None
     if menus is None:
         cache = False
         data = get_html(date)
@@ -24,11 +25,13 @@ def get_menu(date):
 def get_html(date):
     pages = list()
     for name, link in links.items():
-        respons = requests.get(link)
-        content = respons.text
-        page = BeautifulSoup(content, "html.parser")
+        content = requests.get(link)
+        # U 3 Opic has specific encoding, so need to decode in specific way.
+        # Encoding is set manually based on charset of original site
         if name == "u3opic":
-            page = page.decode("windows-1250").encode("utf8")
+            content.encoding = "windows-1250"
+        page = BeautifulSoup(content.text, "html.parser",
+                             from_encoding=content.encoding)
         pages.append({"name": name, "page": page})
     return pages
 

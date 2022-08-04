@@ -26,5 +26,9 @@
     "na_purkince": {
         "url": "http://www.napurkynce.cz/denni-menu/",
         "full_name": "Na Purkiňce"
+    },
+    "kanas": {
+        "url": "http://www.kanas.cz/stranka/date/{date}/0#menu",
+        "full_name": "Restaurace Kanas"
     }
 }

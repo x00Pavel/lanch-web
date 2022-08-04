@@ -114,3 +114,17 @@ def parse_nepal(page):
                     {"type": None, "name": column_text, "price": price})
                 break
     return result
+
+
+def parse_kanas(pages: dict()):
+    result = dict()
+    for day, page in pages.items():
+        result[day] = list()
+        table = page.find("div", {"id": "tab1"}, class_="tab_content")
+        polozky = list(table.find_all("div", class_="polozka"))
+        for p in polozky:
+            name = p.find("span", class_="jidlo").get_text().strip()
+            price = p.find("span", class_="cena").get_text().strip()
+            result[day].append({"name": name, "price": price})
+        
+    return result

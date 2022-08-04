@@ -21,7 +21,7 @@
             </button>
             <div id="{{item["short_name"]}}" class="collapse">
 
-            {% if (item["menu"] is none) or ("menu" not in item.keys()) or (item["menu"] == []) %}
+            {% if (not item["menu"]) or ("menu" not in item.keys()) %}
                 <p>
                     Menu is not in the dict
                 </p>

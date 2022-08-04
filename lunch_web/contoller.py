@@ -65,7 +65,8 @@ def thread_work(vals):
         result["menu"] = parsers.parse_u3opic(page)
     elif name == "padagali":
         result["menu"] = parsers.parse_padagali(page)
-
+    elif name == "na_purkince":
+        result["menu"] = parsers.parse_na_purkince(page)
     return result
 
 

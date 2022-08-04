@@ -9,3 +9,4 @@ pyramid-jinja2
 pyramid-mako
 waitress
 requests
+python-dateutil

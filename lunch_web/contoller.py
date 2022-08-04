@@ -1,12 +1,15 @@
 from os import unlink
 from os.path import exists, abspath, dirname
-from lunch_web import parsers, log, TIME_FORMAT
+
+from lunch_web import parsers, log, TIME_FORMAT, weekday_name
 import requests
 from bs4 import BeautifulSoup
 import json
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from concurrent.futures import ThreadPoolExecutor
 from json import load
+from dateutil.relativedelta import relativedelta, FR
+
 
 # FIXME: set absolute path to files in the root of the module
 MENUS_JSON = "menus.json"
@@ -23,8 +26,26 @@ def thread_work(vals):
     """
     name = vals[0]
     url = vals[1]["url"]
-    content = requests.get(url)
     result = {'short_name': name, "name": vals[1]["full_name"]}
+
+    if name == "kanas":  # This restaurant requires special URL for each data
+        today = date.today()
+        next_fr = today + relativedelta(weekday=FR)
+        delta = next_fr - today
+        until_fr = [today + timedelta(days=i) for i in range(delta.days+1)]
+        content = dict()
+        for day in until_fr:
+            log.warning(url)
+            new_url = url.replace("{date}", day.strftime("%Y/%-m/%-d"))
+            page = requests.get(new_url)
+            page.encoding = "utf-8"
+            content[weekday_name[day.weekday()]] = BeautifulSoup(page.text,
+                                                 "html.parser")
+
+        result["menu"] = parsers.parse_kanas(content)
+        return result
+
+    content = requests.get(url)
 
     # U 3 Opic has specific encoding, so need to decode in specific way.
     # Encoding is set manually based on charset of original site

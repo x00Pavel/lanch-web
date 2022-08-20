@@ -1,11 +1,21 @@
 from concurrent.futures import ThreadPoolExecutor
 from json import load
+from webbrowser import get
 from flask import Flask, jsonify, request
 from flask_restful import Resource, Api
-from lunch_web import controller, parsers
+from lunch_web import controller
+from os import getenv
+from dotenv import load_dotenv
+from waitress import serve
 
 app = Flask(__name__)
 api = Api(app)
+
+load_dotenv()
+PORT = getenv("PORT")
+DEBUG = getenv("DEBUG")
+
+print(DEBUG, PORT)
 
 class Menu(Resource):
     def get(self):
@@ -23,5 +33,8 @@ class Menu(Resource):
 
 api.add_resource(Menu, '/menu')
 
+def create_app():
+    return app
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    create_app()

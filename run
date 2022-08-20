@@ -1,5 +1,5 @@
 #!/bin/bash
 set -e
 
-python setup.py develop
-python runapp.py
+python3 -m pip install ./
+python3 -m flask run --no-debugger

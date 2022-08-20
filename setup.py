@@ -5,31 +5,22 @@ from setuptools import setup, find_packages
 here = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(here, 'README.txt')) as f:
     README = f.read()
-with open(os.path.join(here, 'CHANGES.txt')) as f:
-    CHANGES = f.read()
 
 requires = [
-    'plaster_pastedeploy',
-    'pyramid',
-    'pyramid_jinja2',
-    'pyramid_debugtoolbar',
-    'waitress',
     'requests',
     'bs4',
     'requests_cache'
 ]
 
 tests_require = [
-    'WebTest',
     'pytest',
-    'pytest-cov',
 ]
 
 setup(
     name='lunch_web',
     version='0.0',
     description='Lunch web',
-    long_description=README + '\n\n' + CHANGES,
+    long_description=README,
     classifiers=[
         'Programming Language :: Python',
         'Framework :: Pyramid',
@@ -47,9 +38,4 @@ setup(
         'testing': tests_require,
     },
     install_requires=requires,
-    entry_points={
-        'paste.app_factory': [
-            'main = lunch_web:main',
-        ],
-    },
 )

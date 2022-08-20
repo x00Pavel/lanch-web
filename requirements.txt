@@ -10,3 +10,5 @@ pyramid-mako
 waitress
 requests
 python-dateutil
+flask
+flask-restful

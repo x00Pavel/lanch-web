@@ -15,8 +15,6 @@ load_dotenv()
 PORT = getenv("PORT")
 DEBUG = getenv("DEBUG")
 
-print(DEBUG, PORT)
-
 class Menu(Resource):
     def get(self):
         name = request.args.get('name', "all")
@@ -28,8 +26,10 @@ class Menu(Resource):
                 result = list(exec.map(controller.thread_work, list(rests.items())))
         else: 
             result = controller.thread_work((name, rests[name]))
-        return jsonify(result)
-
+        response = jsonify(result)
+        # Required to avoid CORS error https://developer.mozilla.org/en-US/docs/Glossary/CORS
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
 
 api.add_resource(Menu, '/menu')
 

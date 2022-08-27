@@ -1,5 +1,3 @@
-from concurrent.futures.thread import _worker
-from json import load
 from dotenv import load_dotenv
 from multiprocessing import cpu_count
 from os import environ

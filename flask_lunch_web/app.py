@@ -1,18 +1,13 @@
 from concurrent.futures import ThreadPoolExecutor
 from json import load
-from webbrowser import get
 from flask import Flask, jsonify, request
 from flask_restful import Resource, Api
 from flask_lunch_web import controller
-from os import getenv
-from dotenv import load_dotenv
+
 
 app = Flask(__name__)
 api = Api(app)
 
-load_dotenv()
-PORT = getenv("PORT")
-DEBUG = getenv("DEBUG")
 
 class Menu(Resource):
     def get(self):

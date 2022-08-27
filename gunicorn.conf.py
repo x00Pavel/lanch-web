@@ -6,7 +6,7 @@ from os import environ
 
 load_dotenv()
 
-PORT = environ.get("LUNCH_PORT", 8080)
+PORT = environ.get("PORT", 8080)
 LOG_LEVEL = environ.get("LUNCH_LOG_LEVEL", "info")
 
 bind = f"127.0.0.1:{PORT}"

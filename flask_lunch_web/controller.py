@@ -1,7 +1,7 @@
 from os import unlink
 from os.path import exists, abspath, dirname
+from flask_lunch_web import TIME_FORMAT, log, weekday_name, parsers
 
-from lunch_web import parsers, log, TIME_FORMAT, weekday_name
 import requests
 from bs4 import BeautifulSoup
 import json

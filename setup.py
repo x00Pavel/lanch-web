@@ -1,41 +1,31 @@
 import os
-
 from setuptools import setup, find_packages
 
 here = os.path.abspath(os.path.dirname(__file__))
-with open(os.path.join(here, 'README.txt')) as f:
-    README = f.read()
+
 
 requires = [
     'requests',
     'bs4',
-    'requests_cache'
 ]
 
-tests_require = [
-    'pytest',
-]
 
 setup(
-    name='lunch_web',
+    name='flask_lunch_web',
     version='0.0',
-    description='Lunch web',
-    long_description=README,
+    description='REST API for parsing menus from restaurants',
     classifiers=[
         'Programming Language :: Python',
-        'Framework :: Pyramid',
+        'Framework :: Flask',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: WSGI :: Application',
     ],
-    author='',
-    author_email='',
+    author='Pavel Yadlouski',
+    author_email='pavel.yadlouski@gmail.com',
     url='',
-    keywords='web pyramid pylons',
+    keywords='web flask restful api',
     packages=find_packages(exclude=['tests']),
     include_package_data=True,
     zip_safe=False,
-    extras_require={
-        'testing': tests_require,
-    },
     install_requires=requires,
 )

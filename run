@@ -2,4 +2,4 @@
 set -e
 
 python3 -m pip install ./
-python3 -m flask run --no-debugger
+gunicorn "flask_lunch_web.app:create_app()" --config ./gunicorn.conf.py

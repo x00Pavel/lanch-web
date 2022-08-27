@@ -1,13 +1,4 @@
-click
-Jinja2
-Mako
-MarkupSafe
-Pygments
-pyramid
-pyramid-debugtoolbar
-pyramid-jinja2
-pyramid-mako
-waitress
+gunirorn
 requests
 python-dateutil
 flask

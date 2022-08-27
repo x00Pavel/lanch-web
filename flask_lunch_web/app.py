@@ -3,7 +3,7 @@ from json import load
 from webbrowser import get
 from flask import Flask, jsonify, request
 from flask_restful import Resource, Api
-from lunch_web import controller
+from flask_lunch_web import controller
 from os import getenv
 from dotenv import load_dotenv
 from waitress import serve

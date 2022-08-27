@@ -4,12 +4,6 @@ from setuptools import setup, find_packages
 here = os.path.abspath(os.path.dirname(__file__))
 
 
-requires = [
-    'requests',
-    'bs4',
-]
-
-
 setup(
     name='flask_lunch_web',
     version='0.0',
@@ -27,5 +21,4 @@ setup(
     packages=find_packages(exclude=['tests']),
     include_package_data=True,
     zip_safe=False,
-    install_requires=requires,
 )

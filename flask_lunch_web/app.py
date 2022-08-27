@@ -6,7 +6,6 @@ from flask_restful import Resource, Api
 from flask_lunch_web import controller
 from os import getenv
 from dotenv import load_dotenv
-from waitress import serve
 
 app = Flask(__name__)
 api = Api(app)

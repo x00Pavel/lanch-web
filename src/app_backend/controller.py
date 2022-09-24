@@ -1,6 +1,6 @@
 from os import unlink
 from os.path import exists, abspath, dirname
-from flask_lunch_web import TIME_FORMAT, log, weekday_name, parsers
+from . import TIME_FORMAT, log, weekday_name, parsers
 
 import requests
 from bs4 import BeautifulSoup
@@ -16,7 +16,7 @@ MENUS_JSON = "menus.json"
 RESTAURANTS_JSON = f"{dirname(abspath(__file__))}/restaurants.json"
 
 
-def thread_work(vals):
+def thread_work(name, url):
     """Worker for parsing menu from one restaurant
 
     :param vals: values for the restaurant (short name, link, full name)
@@ -24,9 +24,7 @@ def thread_work(vals):
     :return: parsed page
     :rtype: dict
     """
-    name = vals[0]
-    url = vals[1]["url"]
-    result = {'short_name': name, "name": vals[1]["full_name"]}
+    result = {}
 
     if name == "kanas":  # This restaurant requires special URL for each data
         today = date.today()

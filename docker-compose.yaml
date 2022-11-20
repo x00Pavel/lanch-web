@@ -1,0 +1,11 @@
+version: '3.1'
+services:
+  lunch_web_rest:
+    image: lunch_web_rest
+    build: .
+    ports:
+      - "7788:7788"
+    environment:
+      - LUNCH_PORT=7788
+      - LUNCH_LOG_LEVEL=debug
+

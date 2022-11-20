@@ -1,5 +1,0 @@
-#!/bin/bash
-set -e
-
-python3 -m pip install ./
-gunicorn "flask_lunch_web.app:create_app()" --config ./gunicorn.conf.py

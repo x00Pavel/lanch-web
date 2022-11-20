@@ -1,19 +1,19 @@
-# pylint: disable=missing-function-docstring
+from contextlib import suppress
 
-def parse_na_purkince(page):
+
+def parse_na_purkynce(page):
     result = dict()
 
     for item in page.find_all("div", class_="content"):
-        day = item.find("h2").get_text()
-        soup = item.find("tr", class_="soup")
-        result[day] = [{"name": soup.find("td", class_="food").get_text().strip(),
-                        "price": "Included in menu"}]
-        for tr in item.find_all("tr", class_="main"):
-            name = tr.find("td", class_="food").get_text().strip()
-            price = tr.find("td", class_="prize").get_text()
-            result[day].append({"name": name, "price": price})
-
-
+        with suppress(AttributeError):
+            day = item.find("h2").get_text()
+            soup = item.find("tr", class_="soup")
+            result[day] = [{"name": soup.find("td", class_="food").get_text().strip(),
+                            "price": "Included in menu"}]
+            for tr in item.find_all("tr", class_="main"):
+                name = tr.find("td", class_="food").get_text().strip()
+                price = tr.find("td", class_="prize").get_text()
+                result[day].append({"name": name, "price": price})
     return result
 
 

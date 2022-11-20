@@ -1,22 +1,21 @@
+# pylint: disable=missing-function-docstring
+import json
+from datetime import date, datetime, timedelta
 from os import unlink
-from os.path import exists, abspath, dirname
-from . import TIME_FORMAT, log, weekday_name, parsers
+from os.path import abspath, dirname, exists
 
 import requests
 from bs4 import BeautifulSoup
-import json
-from datetime import date, datetime, timedelta
-from concurrent.futures import ThreadPoolExecutor
-from json import load
-from dateutil.relativedelta import relativedelta, FR
+from dateutil.relativedelta import FR, relativedelta
 
+from . import TIME_FORMAT, log, parsers, weekday_name
 
 # FIXME: set absolute path to files in the root of the module
 MENUS_JSON = "menus.json"
 RESTAURANTS_JSON = f"{dirname(abspath(__file__))}/restaurants.json"
 
 
-def thread_work(name, url):
+def thread_work(name, data):
     """Worker for parsing menu from one restaurant
 
     :param vals: values for the restaurant (short name, link, full name)
@@ -24,7 +23,8 @@ def thread_work(name, url):
     :return: parsed page
     :rtype: dict
     """
-    result = {}
+    result = {'name': data['full_name'], 'short_name': name}
+    url = data['url']
 
     if name == "kanas":  # This restaurant requires special URL for each data
         today = date.today()
@@ -33,7 +33,6 @@ def thread_work(name, url):
         until_fr = [today + timedelta(days=i) for i in range(delta.days+1)]
         content = dict()
         for day in until_fr:
-            log.warning(url)
             new_url = url.replace("{date}", day.strftime("%Y/%-m/%-d"))
             page = requests.get(new_url)
             page.encoding = "utf-8"
@@ -63,25 +62,9 @@ def thread_work(name, url):
         result["menu"] = parsers.parse_u3opic(page)
     elif name == "padagali":
         result["menu"] = parsers.parse_padagali(page)
-    elif name == "na_purkince":
-        result["menu"] = parsers.parse_na_purkince(page)
+    elif name == "na_purkynce":
+        result["menu"] = parsers.parse_na_purkynce(page)
     return result
-
-
-def get_menu(date):
-    cache = True
-    results = load_menu(date)
-    if results is None:
-        cache = False
-        with open(RESTAURANTS_JSON, "r") as f:
-            rests = load(f)
-
-        with ThreadPoolExecutor(max_workers=len(rests.keys())) as exec:
-            results = list(exec.map(thread_work, list(rests.items())))
-        update_menu(results, date)
-
-    # FIXME: change return type of this function to remove
-    return (results, cache)
 
 
 def load_menu(date):

@@ -1,3 +1,5 @@
+# pylint: disable=missing-function-docstring
+
 def parse_na_purkince(page):
     result = dict()
 

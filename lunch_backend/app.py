@@ -27,9 +27,15 @@ class Menu(Resource):
         return response
 
 
-def create_app(*args, **kwargs):
+class HelathCheck(Resource):
+    def get(self):
+        return {"status": "ok"}
+
+
+def create_app():
     app = Flask(__name__)
     api = Api(app)
+    api.add_resource(HelathCheck, "/")
     api.add_resource(Menu, '/menu')
     return app
 

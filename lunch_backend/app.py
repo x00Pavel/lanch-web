@@ -1,42 +1,20 @@
 # pylint: disable=missing-function-docstring, missing-class-docstring, unspecified-encoding
 from concurrent.futures import ThreadPoolExecutor
-from json import load
 
-from flask import Flask, jsonify, request
-from flask_restful import Api, Resource
+from flask import Flask,
+from flask_restful import Api
 
-from lunch_backend import controller
-
-
-class Menu(Resource):
-    def get(self):
-        name = request.args.get('name', "all")
-
-        with open(controller.RESTAURANTS_JSON, "r") as f:
-            rests = load(f)
-
-        result = []
-        if name == "all":
-            with ThreadPoolExecutor(max_workers=len(rests.keys())) as exe:
-                result = list(exe.map(controller.thread_work, rests.keys(), rests.values()))
-        else:
-            result = controller.thread_work(name, rests[name])
-        response = jsonify(result)
-        # Required to avoid CORS error https://developer.mozilla.org/en-US/docs/Glossary/CORS
-        response.headers.add('Access-Control-Allow-Origin', '*')
-        return response
-
-
-class HelathCheck(Resource):
-    def get(self):
-        return {"status": "ok"}
+from lunch_backend.resources.health import HealthCheck
+from lunch_backend.resources.menu import Menu
+from lunch_backend.resources.restaurants import Restaurants
 
 
 def create_app():
     app = Flask(__name__)
     api = Api(app)
-    api.add_resource(HelathCheck, "/")
+    api.add_resource(HealthCheck, "/")
     api.add_resource(Menu, '/menu')
+    api.add_resource(Restaurants, '/restaurants')
     return app
 
 if __name__ == '__main__':

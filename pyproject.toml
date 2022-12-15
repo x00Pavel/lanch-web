@@ -3,8 +3,10 @@ name = "lunch-web"
 version = "0.1.0"
 description = "REST API for parsing menus from restaurants"
 authors = ["Pavel Yadlouski <pavel.yadlouski@gmail.com>"]
-readme = "README.md"
 packages = [{include = "lunch_web"}]
+
+[tool.poetry.scripts]
+rest-api="lunch_web.wsgi.gunicorn_app:run"
 
 [tool.poetry.dependencies]
 python = "^3.10"

@@ -4,7 +4,7 @@ from json import load
 from flask import jsonify, request
 from flask_restful import Resource
 
-from lunch_backend import controller
+from lunch_web import controller
 
 
 class Menu(Resource):

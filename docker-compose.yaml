@@ -8,4 +8,13 @@ services:
     environment:
       - LUNCH_PORT=8080
       - LUNCH_LOG_LEVEL=debug
-
+  mongo_db:
+    image: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root_password
+      - MONGO_INITDB_DATABASE=lunch_web
+    volumes:
+      - ./mongo_data:/data/db

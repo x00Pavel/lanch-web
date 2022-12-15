@@ -1,5 +1,5 @@
 from json import load
-from lunch_backend import controller
+from lunch_web import controller
 
 from flask_restful import Resource
 

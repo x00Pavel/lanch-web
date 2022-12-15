@@ -2,9 +2,9 @@
 from flask import Flask
 from flask_restful import Api
 
-from lunch_backend.resources.health import HealthCheck
-from lunch_backend.resources.menu import Menu
-from lunch_backend.resources.restaurants import Restaurants
+from lunch_web.resources.health import HealthCheck
+from lunch_web.resources.menu import Menu
+from lunch_web.resources.restaurants import Restaurants
 
 
 def _register_resources(api: Api):

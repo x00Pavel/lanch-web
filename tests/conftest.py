@@ -1,5 +1,5 @@
 from pytest import fixture
-from lunch_backend.app import create_app
+from lunch_web.app import create_app
 
 @fixture()
 def test_app():

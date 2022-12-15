@@ -1,6 +1,6 @@
 from json import load
 
-from lunch_backend import controller
+from lunch_web import controller
 
 
 def test_restaurants_endpoint(test_app):

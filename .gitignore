@@ -21,7 +21,7 @@ pip-selfcheck.json
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
-!.vscode/extensions.json
+!.vscode/extensions.jsonflusk_
 *.code-workspace
 
 # Local History for Visual Studio Code
@@ -41,3 +41,4 @@ env*
 .coverage
 *menus.json
 .env
+*data*
